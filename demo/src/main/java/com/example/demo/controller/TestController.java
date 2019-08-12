@@ -4,6 +4,7 @@ import com.example.demo.entity.OAuthToken;
 import com.example.demo.service.FeignClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +30,10 @@ public class TestController {
                 "client_2",
                 "123456");
         return token;
+    }
+
+    @GetMapping(value = "gateway.json")
+    public String testGateway() {
+        return "Gateway config success!";
     }
 }
