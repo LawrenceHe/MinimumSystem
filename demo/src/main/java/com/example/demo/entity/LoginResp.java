@@ -7,5 +7,9 @@ import lombok.Data;
 public class LoginResp {
 
     @ApiModelProperty(value = "登录成功返回Token")
-    private String token;
+    private User user;
+
+    @ApiModelProperty(value = "Auth相关信息")
+    private OAuthToken auth;
+
 }

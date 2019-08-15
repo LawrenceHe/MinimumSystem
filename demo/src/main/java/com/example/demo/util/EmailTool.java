@@ -14,14 +14,14 @@ public class EmailTool {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendSimpleMail(String verifyCode){
+    public void sendSimpleMail(String subject, String content){
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("helun@zhaodongdb.com");
             helper.setTo(new String[]{"helun@zhaodongdb.com", "chenjianxuan@zhaodongdb.com"});
-            helper.setSubject("短信验证码：" + verifyCode);
-            helper.setText("短信验证码：" + verifyCode);
+            helper.setSubject(subject);
+            helper.setText(content);
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

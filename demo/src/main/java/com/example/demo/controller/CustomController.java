@@ -23,6 +23,8 @@ import javax.validation.Valid;
 import java.time.Duration;
 import java.util.Random;
 
+import static com.example.demo.exception.SystemErrorType.MESSAGE_TOKEN_ERROR;
+
 @RestController
 @RequestMapping("/sign")
 @Slf4j
@@ -81,37 +83,37 @@ public class CustomController {
         return Result.success(user);
     }
 
-    @RequestMapping(method = RequestMethod.POST
-            , value = "loginByUsername.json"
-            , consumes = "application/json"
-            , produces = "application/json")
-    public Result login(@Valid @RequestBody CommonRequest<UsernameLoginReq> req) {
-
-        UsernameLoginReq loginInfo = req.getData();
-        User user;
-
-        if (!loginInfo.getUsername().isEmpty()) {
-            user = userMapper.getByUsername(loginInfo.getUsername());
-        } else {
-            return Result.fail(SystemErrorType.USER_NOT_EXIST);
-        }
-
-        if (user == null) {
-            return Result.fail(SystemErrorType.USER_NOT_EXIST);
-        }
-
-        String pwd = SHA1.encode(loginInfo.getPassword());
-        if (!(pwd.equals(user.getPassword()))) {
-            return Result.fail(SystemErrorType.USER_PASSWORD_WRONG);
-        }
-
-        JwtObject jwtObject = jwtBeanService.getJwtObject();
-        String token = jwtObject.generateAccessToken(user.getId());
-        LoginResp resp = new LoginResp();
-        resp.setToken(token);
-        return Result.success(resp);
-
-    }
+//    @RequestMapping(method = RequestMethod.POST
+//            , value = "loginByUsername.json"
+//            , consumes = "application/json"
+//            , produces = "application/json")
+//    public Result login(@Valid @RequestBody CommonRequest<UsernameLoginReq> req) {
+//
+//        UsernameLoginReq loginInfo = req.getData();
+//        User user;
+//
+//        if (!loginInfo.getUsername().isEmpty()) {
+//            user = userMapper.getByUsername(loginInfo.getUsername());
+//        } else {
+//            return Result.fail(SystemErrorType.USER_NOT_EXIST);
+//        }
+//
+//        if (user == null) {
+//            return Result.fail(SystemErrorType.USER_NOT_EXIST);
+//        }
+//
+//        String pwd = SHA1.encode(loginInfo.getPassword());
+//        if (!(pwd.equals(user.getPassword()))) {
+//            return Result.fail(SystemErrorType.USER_PASSWORD_WRONG);
+//        }
+//
+//        JwtObject jwtObject = jwtBeanService.getJwtObject();
+//        String token = jwtObject.generateAccessToken(user.getId());
+//        LoginResp resp = new LoginResp();
+//        resp.setToken(token);
+//        return Result.success(resp);
+//
+//    }
 
     @Autowired
     private EmailTool emailTool;
@@ -122,11 +124,13 @@ public class CustomController {
     public Result getMessageToken(@Valid @RequestBody CommonRequest<MessageTokenReq> req) {
         MessageTokenReq loginInfo = req.getData();
         String verifyCode = String
-                .valueOf(new Random().nextInt(899999) + 100000);
+                .valueOf(new Random().nextInt(89999999) + 10000000);
         stringRedisTemplate.opsForValue()
-                .set(loginInfo.getMobile(), verifyCode, Duration.ofMinutes(1L));
+                .set(loginInfo.getMobile(), verifyCode, Duration.ofMinutes(10L));
         log.info("VerifyCode:" + verifyCode);
-        emailTool.sendSimpleMail(verifyCode);
+        String subject = "短信验证码：" + verifyCode;
+        String content = "手机号码：" + loginInfo.getMobile() + "，短信验证码：" + verifyCode + "，有效期10分钟。";
+        emailTool.sendSimpleMail(subject, content);
         return Result.success();
     }
 
@@ -138,43 +142,40 @@ public class CustomController {
 
         MobileLoginReq loginInfo = req.getData();
         User user = userCenterProvider.getUserByUsername(loginInfo.getMobile());
-        OAuthToken token = authProvider.getOAuthToken(loginInfo.getMobile(),
-                loginInfo.getMessageToken(),
-                "password",
-                "select",
-                "client2",
-                "123456");
-        return Result.success(token);
-//        // 短信验证码登录，若用户不存在，则自动注册并登录
-//        if (loginInfo.getMessageToken().equals(verifyCode)) {
-//
-//            if (user != null) {
-//                JwtObject jwtObject = jwtBeanService.getJwtObject();
-//                String token = jwtObject.generateAccessToken(user.getId());
-//                LoginResp resp = new LoginResp();
-//                resp.setToken(token);
-//                return Result.success(resp);
-//            } else {
-//                User newUser = new User();
-//                newUser.setId(new SnowFlake(3, 3).nextId());
-//                newUser.setUsername(loginInfo.getMobile());
-//                newUser.setEnabled(true);
-//
-//                try {
-//                    userMapper.insertUser(newUser);
-//                } catch (DuplicateKeyException e) {
-//                    return Result.fail(SystemErrorType.SQL_DUPLICATE_KEY);
-//                }
-//
-//                JwtObject jwtObject = jwtBeanService.getJwtObject();
-//                String token = jwtObject.generateAccessToken(newUser.getId());
-//                LoginResp resp = new LoginResp();
-//                resp.setToken(token);
-//                return Result.success(resp);
-//            }
-//        } else {
-//            return Result.fail(MESSAGE_TOKEN_ERROR);
-//        }
+        // 短信验证码登录，若用户不存在，则自动注册并登录
+        String verifyCode = stringRedisTemplate.opsForValue().get(loginInfo.getMobile());
+        if (loginInfo.getMessageToken().equals(verifyCode)) {
+            OAuthToken auth = authProvider.getOAuthToken(loginInfo.getMobile(),
+                    loginInfo.getMessageToken(),
+                    "password",
+                    "select",
+                    "client2",
+                    "123456");
+            if (user != null) {
+                LoginResp resp = new LoginResp();
+                resp.setUser(user);
+                resp.setAuth(auth);
+                return Result.success(resp);
+            } else {
+                User newUser = new User();
+                newUser.setId(new SnowFlake(3, 3).nextId());
+                newUser.setUsername(loginInfo.getMobile());
+                newUser.setEnabled(true);
+
+                try {
+                    userMapper.insertUser(newUser);
+                } catch (DuplicateKeyException e) {
+                    return Result.fail(SystemErrorType.SQL_DUPLICATE_KEY);
+                }
+
+                LoginResp resp = new LoginResp();
+                resp.setAuth(auth);
+                resp.setUser(newUser);
+                return Result.success(resp);
+            }
+        } else {
+            return Result.fail(MESSAGE_TOKEN_ERROR);
+        }
 
     }
 }

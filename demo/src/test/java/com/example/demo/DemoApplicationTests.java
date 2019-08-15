@@ -47,6 +47,6 @@ public class DemoApplicationTests {
 
     @Test
     public void testEmail() {
-        emailTool.sendSimpleMail("123456");
+        emailTool.sendSimpleMail("subject", "context");
     }
 }
