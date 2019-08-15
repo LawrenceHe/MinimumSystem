@@ -31,6 +31,18 @@ spring:
       pool:
         max-active: 300
 
+  mail:
+    host: mail.onjdcloud.com
+    port: 465
+    protocol: smtp
+    username: helun@zhaodongdb.com
+    password: wskwwx,20190408
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+
 soa:
   path: /user
 

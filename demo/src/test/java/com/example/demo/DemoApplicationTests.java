@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.util.EmailTool;
 import com.example.demo.util.SnowFlake;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,5 +40,13 @@ public class DemoApplicationTests {
     public void testRedis() {
         stringRedisTemplate.opsForValue().set("aaa", "111", Duration.ofSeconds(10));
         Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
+    }
+
+    @Autowired
+    private EmailTool emailTool;
+
+    @Test
+    public void testEmail() {
+        emailTool.sendSimpleMail("123456");
     }
 }

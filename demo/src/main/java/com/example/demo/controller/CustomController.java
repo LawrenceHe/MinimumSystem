@@ -6,6 +6,7 @@ import com.example.demo.exception.SystemErrorType;
 import com.example.demo.provider.AuthProvider;
 import com.example.demo.provider.UserCenterProvider;
 import com.example.demo.service.JwtBeanService;
+import com.example.demo.util.EmailTool;
 import com.example.demo.util.JwtObject;
 import com.example.demo.util.SHA1;
 import com.example.demo.util.SnowFlake;
@@ -112,6 +113,8 @@ public class CustomController {
 
     }
 
+    @Autowired
+    private EmailTool emailTool;
     @RequestMapping(method = RequestMethod.POST
             , value = "getMessageToken.json"
             , consumes = "application/json"
@@ -123,6 +126,7 @@ public class CustomController {
         stringRedisTemplate.opsForValue()
                 .set(loginInfo.getMobile(), verifyCode, Duration.ofMinutes(1L));
         log.info("VerifyCode:" + verifyCode);
+        emailTool.sendSimpleMail(verifyCode);
         return Result.success();
     }
 

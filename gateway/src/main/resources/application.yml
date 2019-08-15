@@ -12,6 +12,16 @@ eureka:
     serviceUrl:
       defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8761}/eureka/
 
+feign:
+  httpclient:
+    enabled: true
+  okhttp:
+    enabled: true
+  timeout:
+    read: 60
+    connect: 60
+    write: 60
+
 spring:
   application:
     name: gateway-server
@@ -25,3 +35,12 @@ spring:
             - Path=/demo/**
           filters:
             - StripPrefix=1
+        - id: oauth_route
+          uri: lb://auth-server
+          order: 1
+          predicates:
+            - Path=/oauth/**
+        - id: user_center_route
+          uri: lb://user-center
+          predicates:
+            - Path=/user/**
