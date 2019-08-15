@@ -39,14 +39,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (verifyCode != null) {
             password = passwordEncoder.encode(verifyCode);
         }
-        return new org.springframework.security.core.userdetails.User(
-                username,
-                password,
-                user.getEnabled(),
-                user.getAccountNonExpired(),
-                user.getCredentialsNonExpired(),
-                user.getAccountNonLocked(),
-                this.obtainGrantedAuthorities(user));
+        user.setPassword(password);
+        user.setAuthorities(this.obtainGrantedAuthorities(user));
+        return user;
+//        return new org.springframework.security.core.userdetails.User(
+//                username,
+//                password,
+//                user.getEnabled(),
+//                user.getAccountNonExpired(),
+//                user.getCredentialsNonExpired(),
+//                user.getAccountNonLocked(),
+//                this.obtainGrantedAuthorities(user));
     }
 
     /**

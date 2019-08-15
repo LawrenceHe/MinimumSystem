@@ -1,5 +1,6 @@
 package com.example.auth.config;
 
+import com.example.auth.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -136,8 +136,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         @Override
         public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
             Map<String, Object> additionalInfo = new HashMap<>();
-            //自定义token内容，加入组织机构信息
-            additionalInfo.put("organization", authentication.getName());
+            //自定义token内容，加入用户ID
+            User user = (User)authentication.getUserAuthentication().getPrincipal();
+            additionalInfo.put("uid", user.getId());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         }
