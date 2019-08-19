@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 
-import com.example.demo.exception.BaseException;
-import com.example.demo.exception.ErrorType;
-import com.example.demo.exception.SystemErrorType;
+import com.example.common.exception.BaseException;
+import com.example.common.exception.ErrorType;
+import com.example.common.exception.SystemErrorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -21,12 +21,10 @@ public class CommonResponse<T> {
 
     @ApiModelProperty(value = "处理结果代码", required = true)
     private Integer code;
-    @ApiModelProperty(value = "处理结果描述信息")
+    @ApiModelProperty(value = "处理结果描述信息", required = true)
     private String msg;
-    @ApiModelProperty(value = "请求结果生成时间戳")
+    @ApiModelProperty(value = "请求结果生成时间戳", required = true)
     private Instant timestamp;
-    @ApiModelProperty(value = "请求结果公共返回头")
-    private CommonRequestHeader header;
     @ApiModelProperty(value = "处理结果数据信息")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;

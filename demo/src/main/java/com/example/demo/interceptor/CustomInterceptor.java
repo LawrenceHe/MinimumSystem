@@ -1,7 +1,7 @@
 package com.example.demo.interceptor;
 
-import com.example.demo.exception.BaseException;
-import com.example.demo.exception.SystemErrorType;
+import com.example.common.exception.BaseException;
+import com.example.common.exception.SystemErrorType;
 import com.example.demo.service.JwtBeanService;
 import com.example.demo.util.HttpHelper;
 import com.example.demo.util.JwtObject;

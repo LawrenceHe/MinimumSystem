@@ -1,6 +1,6 @@
 package com.example.auth.config;
 
-import com.example.auth.entity.User;
+import com.example.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,7 @@
 package com.example.auth.service;
 
-import com.example.auth.entity.Role;
-import com.example.auth.entity.User;
+import com.example.common.entity.Role;
+import com.example.common.entity.User;
 import com.example.auth.provider.UserCenterProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,10 +36,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userCenterProvider.getUserByUsername(username);
         String verifyCode = stringRedisTemplate.opsForValue().get(username);
         stringRedisTemplate.delete(username);
-        String password = "";
-        if (verifyCode != null) {
-            password = passwordEncoder.encode(verifyCode);
-        }
+        log.info("Read Verify Code : " + verifyCode);
+        String password = Optional.ofNullable(passwordEncoder.encode(verifyCode)).orElse("");
         user.setPassword(password);
         user.setAuthorities(this.obtainGrantedAuthorities(user));
         return user;

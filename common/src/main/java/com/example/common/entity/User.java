@@ -1,4 +1,4 @@
-package com.example.auth.entity;
+package com.example.common.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

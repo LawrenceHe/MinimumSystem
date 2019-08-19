@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.common.entity.Result;
+import com.example.common.entity.User;
+import com.example.common.exception.SystemErrorType;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.entity.*;
-import com.example.demo.exception.SystemErrorType;
 import com.example.demo.provider.AuthProvider;
 import com.example.demo.provider.UserCenterProvider;
 import com.example.demo.service.JwtBeanService;
@@ -10,6 +12,9 @@ import com.example.demo.util.EmailTool;
 import com.example.demo.util.JwtObject;
 import com.example.demo.util.SHA1;
 import com.example.demo.util.SnowFlake;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,10 +28,11 @@ import javax.validation.Valid;
 import java.time.Duration;
 import java.util.Random;
 
-import static com.example.demo.exception.SystemErrorType.MESSAGE_TOKEN_ERROR;
+import static com.example.common.exception.SystemErrorType.MESSAGE_TOKEN_ERROR;
 
 @RestController
 @RequestMapping("/sign")
+@Api("/sign")
 @Slf4j
 public class CustomController {
 
@@ -44,6 +50,9 @@ public class CustomController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private EmailTool emailTool;
 
     @RequestMapping(method = RequestMethod.POST
             , value = "registerByUsername.json"
@@ -115,8 +124,7 @@ public class CustomController {
 //
 //    }
 
-    @Autowired
-    private EmailTool emailTool;
+    @ApiOperation(value = "获取手机短信验证码", notes = "根据手机号来获取短信验证码，Demo中短信验证码通过邮件来发送。")
     @RequestMapping(method = RequestMethod.POST
             , value = "getMessageToken.json"
             , consumes = "application/json"
@@ -134,6 +142,7 @@ public class CustomController {
         return Result.success();
     }
 
+    @ApiOperation(value = "通过手机号进行登录/注册", notes = "通过手机号进行登录/注册，若用户存在则登录，若用户不存在则自动注册并登录。")
     @RequestMapping(method = RequestMethod.POST
             , value = "loginByMobile.json"
             , consumes = "application/json"

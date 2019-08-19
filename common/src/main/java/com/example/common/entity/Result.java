@@ -1,8 +1,8 @@
-package com.example.demo.entity;
+package com.example.common.entity;
 
-import com.example.demo.exception.BaseException;
-import com.example.demo.exception.ErrorType;
-import com.example.demo.exception.SystemErrorType;
+import com.example.common.exception.BaseException;
+import com.example.common.exception.ErrorType;
+import com.example.common.exception.SystemErrorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;

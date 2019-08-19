@@ -1,7 +1,7 @@
 package com.example.demo.provider;
 
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
+import com.example.common.entity.Role;
+import com.example.common.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

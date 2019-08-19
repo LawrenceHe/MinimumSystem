@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.entity.User;
+import com.example.common.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dao.UserMapper;
-import com.example.demo.entity.User;
+import com.example.common.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

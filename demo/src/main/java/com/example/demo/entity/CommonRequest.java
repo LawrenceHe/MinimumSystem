@@ -9,8 +9,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Data
-@ApiModel
 @Slf4j
+@ApiModel(description = "SOA请求接口的一般性结构，包含固定的请求头和可变的请求体")
 public class CommonRequest<T> {
 
     @NotNull(message = "请求头不允许为空")

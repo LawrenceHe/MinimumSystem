@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.example.common.exception;
 
 import lombok.Getter;
 
@@ -9,6 +9,7 @@ public enum SystemErrorType implements ErrorType {
 
     GATEWAY_NOT_FOUND_SERVICE(0x00010404, "服务未找到"),
     GATEWAY_ERROR(0x00010500, "网关异常"),
+    REQUEST_METHOD_UNSUPPORTED(0x00010501, "不支持的请求方法"),
     GATEWAY_CONNECT_TIME_OUT(0x00010002, "网关超时"),
 
     ARGUMENT_NOT_VALID(0x00020000, "请求参数校验不通过"),
@@ -27,6 +28,7 @@ public enum SystemErrorType implements ErrorType {
     TOKEN_EXPIRED(0x00040003, "Token过期"),
 
     MESSAGE_TOKEN_ERROR(0x00040004, "短信验证码不正确或者已经过期"),
+
 
     SYSTEM_ERROR(0xFFFFFFFF, "系统异常");
 
