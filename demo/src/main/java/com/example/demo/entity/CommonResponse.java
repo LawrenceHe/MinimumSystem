@@ -16,11 +16,11 @@ import java.time.ZonedDateTime;
 @Getter
 public class CommonResponse<T> {
 
-    public static final Integer SUCCESSFUL_CODE = 0;
+    public static final String SUCCESSFUL_CODE = "0";
     public static final String SUCCESSFUL_MSG = "处理成功";
 
     @ApiModelProperty(value = "处理结果代码", required = true)
-    private Integer code;
+    private String code;
     @ApiModelProperty(value = "处理结果描述信息", required = true)
     private String msg;
     @ApiModelProperty(value = "请求结果生成时间戳", required = true)
@@ -58,7 +58,7 @@ public class CommonResponse<T> {
      * @param msg
      * @param data
      */
-    private CommonResponse(Integer code, String msg, T data) {
+    private CommonResponse(String code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;

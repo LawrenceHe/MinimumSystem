@@ -18,9 +18,9 @@ public class CommonRequestHeader {
     @ApiModelProperty(value = "用户登录态")
     private String token;
 
-    @NotNull(message = "version不允许为空")
+    @NotBlank(message = "version不允许为空")
     @ApiModelProperty(value = "APP版本号")
-    private Integer version;
+    private String version;
 
     @NotBlank(message = "平台Id不允许为空")
     @ApiModelProperty(value = "平台Id" +

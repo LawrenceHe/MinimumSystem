@@ -6,7 +6,7 @@ public interface ErrorType {
      *
      * @return
      */
-    Integer getCode();
+    String getCode();
 
     /**
      * 返回mesg
