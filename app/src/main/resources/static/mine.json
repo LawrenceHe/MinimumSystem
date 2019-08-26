@@ -19,7 +19,7 @@
                         "style":{                    
                             "height":"150"
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     }]
             },
             {
@@ -38,7 +38,7 @@
                             "height":"70"
                         },
                         "link":"https://www.baidu.com",
-                        "imageName":"ZDBMineModule_mine_kapian",
+                        "imageName":"ZDBMineModule_mine_kapian"
                     },
                     {
                         "type": "test",
@@ -48,7 +48,7 @@
                             "height":"70"
                         },
                         "link":"zhaodong://login",
-                        "imageName":"ZDBMineModule_mine_jiaoyi",
+                        "imageName":"ZDBMineModule_mine_jiaoyi"
                     },
                     {
                         "type": "test",
@@ -58,7 +58,7 @@
                             "height":"70"
                         },
                         "link":"zhaodong://login",
-                        "imageName":"ZDBMineModule_mine_hongbao",
+                        "imageName":"ZDBMineModule_mine_hongbao"
                     },
                     {
                         "type": "test",
@@ -68,7 +68,7 @@
                             "margin":["5rp","5","5","5"],
                             "height":"70"
                         },
-                        "imageName":"ZDBMineModule_mine_kaquan",
+                        "imageName":"ZDBMineModule_mine_kaquan"
                     }
                 ]
                 
@@ -89,9 +89,9 @@
                         "title": "我的权益",
                         "detail":"您有10张券待使用",
                         "style":{
-                            "height":"50",
+                            "height":"50"
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     },
                     {
                         "type": "table-cell",
@@ -99,9 +99,9 @@
                         "top-line-hidden":"YES",
                         "show_accsory":"YES",
                         "style":{
-                            "height":"50",
+                            "height":"50"
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     },
                     {
                         "type": "table-cell",
@@ -111,9 +111,9 @@
                         "bottom-line-hidden":"YES",
                         "show_accsory":"YES",
                         "style":{
-                            "height":"50",
+                            "height":"50"
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     },
                     {
                         "type": "table-cell",
@@ -123,9 +123,9 @@
                         "show_accsory":"YES",
                         "image-url":"ZDBMineModule_mine_kapian",
                         "style":{
-                            "height":"50",
+                            "height":"50"
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     }
                 ]
             }

@@ -20,7 +20,7 @@
                             "height":"150"
                         },
                         "link":"zhaodong://login",
-                        "imageName":"loan",
+                        "imageName":"loan"
                     }]
             },
             {
@@ -39,7 +39,7 @@
                             "height":"70"
                         },
                         "link":"https://www.baidu.com",
-                        "imageName":"loan",
+                        "imageName":"loan"
                     },
                     {
                         "type": "test",
@@ -49,7 +49,7 @@
                             "height":"70"
                         },
                         "link":"zhaodong://login",
-                        "imageName":"mine",
+                        "imageName":"mine"
                     },
                     {
                         "type": "test",
@@ -59,7 +59,7 @@
                             "height":"70"
                         },
                         "link":"zhaodong://login",
-                        "imageName":"home",
+                        "imageName":"home"
                     },
                     {
                         "type": "test",
@@ -69,7 +69,7 @@
                             "margin":["5rp","5","0","5"],
                             "height":"70"
                         },
-                        "imageName":"fortune",
+                        "imageName":"fortune"
                     }
                 ]
                 
@@ -78,7 +78,7 @@
                 "type": "flow-container",
                 "id": "third-line",
                 "style":{
-                    "column" : "1",
+                    "column" : "1"
                 },
                 "header": {
                     "type":"home-header",
@@ -87,35 +87,33 @@
                     "link":"zhaodong://login",
                     "style":{
                          "height":"44",
-                         "margin":["0","10","0","10"],
+                         "margin":["0","10","0","10"]
                     }
                 },
                 "items": [
                     {
                         "type": "product-card",
                         "productName": "银行存款",
-                         "link":"zhaodong://login",
                         "productRate":"4.875%",
                         "leftDescription":".安全保障 .随存随取",
                         "rightDescription":"最高年利率",
                         "style":{
                             "height":"100",
-                            "margin":["0","20","0","20"],
+                            "margin":["0","20","0","20"]
                         },
-                         "link":"zhaodong://login",
+                         "link":"zhaodong://login"
                     },
                     {
                         "type": "product-card",
                         "productName": "活期存款",
                         "productRate":"2.740%",
-                        "link":"zhaodong://login",
                         "leftDescription":".转账实时到账",
                         "rightDescription":"最高七日年化收益率",
                         "style":{
                             "height":"100",
-                            "margin":["10","20","0","20"],
+                            "margin":["10","20","0","20"]
                         },
-                        "link":"zhaodong://login",
+                        "link":"zhaodong://login"
                     }
                 ]
             },
@@ -123,7 +121,7 @@
                 "type": "flow-container",
                 "id": "third-line",
                 "style":{
-                    "column" : "1",
+                    "column" : "1"
                 },
                 "header": {
                     "type":"home-header",
@@ -131,7 +129,7 @@
                     "detail":"",
                     "style":{
                         "height":"44",
-                        "margin":["0","10","0","10"],
+                        "margin":["0","10","0","10"]
                     }
                 },
                 "items": [
@@ -144,9 +142,8 @@
                         "rightDescription":"",
                         "style":{
                             "height":"100",
-                            "margin":["0","20","0","20"],
-                        },
-                         "link":"zhaodong://login"
+                            "margin":["0","20","0","20"]
+                        }
                     },
                     {
                         "link":"zhaodong://login",
@@ -157,9 +154,8 @@
                         "rightDescription":"点击开户",
                         "style":{
                             "height":"100",
-                            "margin":["10","20","0","20"],
-                        },
-                         "link":"zhaodong://login"
+                            "margin":["10","20","0","20"]
+                        }
                     }
                 ]
             },
@@ -178,34 +174,34 @@
                     "detail":"更多",
                     "style":{
                         "height":"44",
-                        "margin":["0","10","0","10"],
+                        "margin":["0","10","0","10"]
                     }
                 },
                 "items": [
                     {
                         "type": "image",
                         "link":"zhaodong://login",
-                        "image-url":"goods",
+                        "image-url":"goods"
                     },
                     {
                         "type": "image",
                         "link":"zhaodong://login",
-                        "image-url":"goods-1",
+                        "image-url":"goods-1"
                     },
                     {
                         "type": "image",
                         "link":"zhaodong://login",
-                        "image-url":"goods",
+                        "image-url":"goods"
                     },
                     {
                         "type": "image",
                         "link":"zhaodong://login",
-                        "image-url":"goods-1",
+                        "image-url":"goods-1"
                     },
                     {
                         "type": "image",
                         "link":"zhaodong://login",
-                        "image-url":"goods",
+                        "image-url":"goods"
                     }
                 ]
             }
