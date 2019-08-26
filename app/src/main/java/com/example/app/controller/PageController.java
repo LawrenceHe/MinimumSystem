@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 import static com.example.common.exception.SystemErrorType.PAGE_NOT_EXIST;
@@ -40,8 +41,8 @@ public class PageController {
         String resPath = "static/" + req.getData().getPageName() + ".json";
         Resource pageData = new ClassPathResource(resPath);
         try {
-            File file = pageData.getFile();
-            JsonNode json = objectMapper.readTree(file);
+            InputStream stream = pageData.getInputStream();
+            JsonNode json = objectMapper.readTree(stream);
             resp.setPageInfo(json);
         } catch (IOException e) {
             return Result.fail(PAGE_NOT_EXIST);

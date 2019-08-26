@@ -89,8 +89,9 @@ public class CustomController {
                     "client2",
                     "123456");
             LoginResp resp = new LoginResp();
-            resp.setUser(user);
-            resp.setAuth(auth);
+            resp.setUserId(user.getId().toString());
+            resp.setAccessToken(auth.getAccess_token());
+            resp.setRefreshToken(auth.getRefresh_token());
             return Result.success(resp);
 
         } else {
