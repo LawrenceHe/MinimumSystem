@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.common.entity;
 
 import com.example.common.exception.BaseException;
 import com.example.common.exception.ErrorType;

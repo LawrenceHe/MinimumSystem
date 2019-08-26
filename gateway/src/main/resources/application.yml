@@ -3,7 +3,7 @@ logging:
     org.springframework: DEBUG
 
 server:
-  port: 8080
+  port: 18080
 
 eureka:
   client:
@@ -44,3 +44,7 @@ spring:
           uri: lb://user-center
           predicates:
             - Path=/user/**
+        - id: app_route
+          uri: lb://app-server
+          predicates:
+            - Path=/page/**

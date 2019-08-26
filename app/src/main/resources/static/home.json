@@ -1,0 +1,216 @@
+{
+    "data": {
+        "style":{
+            "bgColor" : "0xf3f3f3"
+        },
+        "cards": [
+            {
+                "type": "flow-container",
+                "id": "first-line",
+                "style":{
+                    "column" : "1"
+                },
+                "items": [
+                    {
+                        "type": "loginInCard",
+                        "title": "招东银行",
+                        "detail":"招商银行发起设立的直销银行",
+                        "buttonName":"一键登录",
+                        "style":{                    
+                            "height":"150"
+                        },
+                        "link":"zhaodong://login",
+                        "imageName":"loan",
+                    }]
+            },
+            {
+                "type": "flow-container",
+                "id": "second-line",
+                "style":{
+                    "padding":["5rp","5","0","5"],
+                    "column" : "4"
+                },
+                "items": [
+                    {
+                        "type": "test",
+                        "title": "贷款",
+                        "style":{
+                            "margin":["5rp","5","0","5"],
+                            "height":"70"
+                        },
+                        "link":"https://www.baidu.com",
+                        "imageName":"loan",
+                    },
+                    {
+                        "type": "test",
+                        "title": "转账",
+                        "style":{
+                            "margin":["5rp","5","0","5"],
+                            "height":"70"
+                        },
+                        "link":"zhaodong://login",
+                        "imageName":"mine",
+                    },
+                    {
+                        "type": "test",
+                        "title": "商城",
+                        "style":{
+                            "margin":["5rp","5","0","5"],
+                            "height":"70"
+                        },
+                        "link":"zhaodong://login",
+                        "imageName":"home",
+                    },
+                    {
+                        "type": "test",
+                        "title": "财富",
+                        "link":"zhaodong://login",
+                        "style":{
+                            "margin":["5rp","5","0","5"],
+                            "height":"70"
+                        },
+                        "imageName":"fortune",
+                    }
+                ]
+                
+            },
+            {
+                "type": "flow-container",
+                "id": "third-line",
+                "style":{
+                    "column" : "1",
+                },
+                "header": {
+                    "type":"home-header",
+                    "title":"稳健存款",
+                    "detail":"更多",
+                    "link":"zhaodong://login",
+                    "style":{
+                         "height":"44",
+                         "margin":["0","10","0","10"],
+                    }
+                },
+                "items": [
+                    {
+                        "type": "product-card",
+                        "productName": "银行存款",
+                         "link":"zhaodong://login",
+                        "productRate":"4.875%",
+                        "leftDescription":".安全保障 .随存随取",
+                        "rightDescription":"最高年利率",
+                        "style":{
+                            "height":"100",
+                            "margin":["0","20","0","20"],
+                        },
+                         "link":"zhaodong://login",
+                    },
+                    {
+                        "type": "product-card",
+                        "productName": "活期存款",
+                        "productRate":"2.740%",
+                        "link":"zhaodong://login",
+                        "leftDescription":".转账实时到账",
+                        "rightDescription":"最高七日年化收益率",
+                        "style":{
+                            "height":"100",
+                            "margin":["10","20","0","20"],
+                        },
+                        "link":"zhaodong://login",
+                    }
+                ]
+            },
+            {
+                "type": "flow-container",
+                "id": "third-line",
+                "style":{
+                    "column" : "1",
+                },
+                "header": {
+                    "type":"home-header",
+                    "title":"爆款权益",
+                    "detail":"",
+                    "style":{
+                        "height":"44",
+                        "margin":["0","10","0","10"],
+                    }
+                },
+                "items": [
+                    {
+                        "link":"zhaodong://login",
+                        "type": "product-card",
+                        "productName": "开户礼一",
+                        "productRate":"加息券",
+                        "leftDescription":"赶快领取吧",
+                        "rightDescription":"",
+                        "style":{
+                            "height":"100",
+                            "margin":["0","20","0","20"],
+                        },
+                         "link":"zhaodong://login"
+                    },
+                    {
+                        "link":"zhaodong://login",
+                        "type": "product-card",
+                        "productName": "开户礼二",
+                        "productRate":"礼品",
+                        "leftDescription":"大大惊喜",
+                        "rightDescription":"点击开户",
+                        "style":{
+                            "height":"100",
+                            "margin":["10","20","0","20"],
+                        },
+                         "link":"zhaodong://login"
+                    }
+                ]
+            },
+            {
+                "type": "page-container",
+                "id": "good-page",
+                "style":{
+                    "pageWidth" : "100",
+                    "pageHeight": "100",
+                    "margin":["0","10","0","10"],
+                    "hGap":"1"
+                },
+                "header": {
+                    "type":"home-header",
+                    "title":"精选商品",
+                    "detail":"更多",
+                    "style":{
+                        "height":"44",
+                        "margin":["0","10","0","10"],
+                    }
+                },
+                "items": [
+                    {
+                        "type": "image",
+                        "link":"zhaodong://login",
+                        "image-url":"goods",
+                    },
+                    {
+                        "type": "image",
+                        "link":"zhaodong://login",
+                        "image-url":"goods-1",
+                    },
+                    {
+                        "type": "image",
+                        "link":"zhaodong://login",
+                        "image-url":"goods",
+                    },
+                    {
+                        "type": "image",
+                        "link":"zhaodong://login",
+                        "image-url":"goods-1",
+                    },
+                    {
+                        "type": "image",
+                        "link":"zhaodong://login",
+                        "image-url":"goods",
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+

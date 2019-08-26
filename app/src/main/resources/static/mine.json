@@ -1,0 +1,136 @@
+{
+    "data": {
+        "style":{
+            "bgColor" : "0xf3f3f3"
+        },
+        "cards": [
+            {
+                "type": "flow-container",
+                "id": "first-line",
+                "style":{
+                    "column" : "1"
+                },
+                "items": [
+                    {
+                        "type": "loginInCard",
+                        "title": "招东银行",
+                        "detail":"招商银行发起设立的直销银行",
+                        "buttonName":"一键登录",
+                        "style":{                    
+                            "height":"150"
+                        },
+                        "link":"zhaodong://login",
+                    }]
+            },
+            {
+                "type": "flow-container",
+                "id": "second-line",
+                "style":{
+                    "padding":["5rp","5","5","5"],
+                    "column" : "4"
+                },
+                "items": [
+                    {
+                        "type": "test",
+                        "title": "账户·银行卡",
+                        "style":{
+                            "margin":["5rp","5","5","5"],
+                            "height":"70"
+                        },
+                        "link":"https://www.baidu.com",
+                        "imageName":"ZDBMineModule_mine_kapian",
+                    },
+                    {
+                        "type": "test",
+                        "title": "交易查询",
+                        "style":{
+                            "margin":["5rp","5","5","5"],
+                            "height":"70"
+                        },
+                        "link":"zhaodong://login",
+                        "imageName":"ZDBMineModule_mine_jiaoyi",
+                    },
+                    {
+                        "type": "test",
+                        "title": "红包",
+                        "style":{
+                            "margin":["5rp","5","5","5"],
+                            "height":"70"
+                        },
+                        "link":"zhaodong://login",
+                        "imageName":"ZDBMineModule_mine_hongbao",
+                    },
+                    {
+                        "type": "test",
+                        "title": "卡券",
+                        "link":"zhaodong://login",
+                        "style":{
+                            "margin":["5rp","5","5","5"],
+                            "height":"70"
+                        },
+                        "imageName":"ZDBMineModule_mine_kaquan",
+                    }
+                ]
+                
+            },
+            {
+                "type": "flow-container",
+                "id": "thrid-line",
+                "style":{
+                    "corner-radius": "5.0",
+                    "bgColor": "0xffffff",
+                    "column" : "1",
+                    "margin":["0rp","20rp","0","20rp"]
+                },
+                "items": [
+                    {
+                        "top-line-hidden":"YES",
+                        "type": "table-cell",
+                        "title": "我的权益",
+                        "detail":"您有10张券待使用",
+                        "style":{
+                            "height":"50",
+                        },
+                        "link":"zhaodong://login",
+                    },
+                    {
+                        "type": "table-cell",
+                        "title": "安全设置",
+                        "top-line-hidden":"YES",
+                        "show_accsory":"YES",
+                        "style":{
+                            "height":"50",
+                        },
+                        "link":"zhaodong://login",
+                    },
+                    {
+                        "type": "table-cell",
+                        "title": "推荐有礼",
+                        "detail":"推荐好友送大礼",
+                        "top-line-hidden":"YES",
+                        "bottom-line-hidden":"YES",
+                        "show_accsory":"YES",
+                        "style":{
+                            "height":"50",
+                        },
+                        "link":"zhaodong://login",
+                    },
+                    {
+                        "type": "table-cell",
+                        "title": "我的定投",
+                        "detail":"查看详情",
+                        "bottom-line-hidden":"YES",
+                        "show_accsory":"YES",
+                        "image-url":"ZDBMineModule_mine_kapian",
+                        "style":{
+                            "height":"50",
+                        },
+                        "link":"zhaodong://login",
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+

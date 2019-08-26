@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.common.entity.CommonRequest;
 import com.example.common.entity.Result;
 import com.example.common.entity.User;
 import com.example.common.exception.SystemErrorType;
