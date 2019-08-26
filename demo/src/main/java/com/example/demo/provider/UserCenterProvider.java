@@ -18,6 +18,6 @@ public interface UserCenterProvider {
     Set<Role> queryRolesByUserId(@RequestParam("id") Long userId);
 
     @PostMapping(value = "/user/insertUser.json")
-    Integer insertUser(@RequestParam("mobile") String mobile);
+    User insertUser(@RequestParam("mobile") String mobile);
 
 }

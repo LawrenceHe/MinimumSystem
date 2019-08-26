@@ -1,13 +1,12 @@
 package com.example.usercenter.controller;
 
 import com.example.usercenter.dao.UserMapper;
-import com.example.usercenter.entity.Role;
-import com.example.usercenter.entity.User;
+import com.example.common.entity.Role;
+import com.example.common.entity.User;
 import com.example.usercenter.util.SnowFlake;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,12 +24,9 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
     @RequestMapping(method = RequestMethod.POST
             , value = "insertUser.json")
-    public Integer insertUser(@Valid @RequestParam String mobile) {
+    public User insertUser(@Valid @RequestParam String mobile) {
         User user = new User();
         user.setId(new SnowFlake(3, 3).nextId());
         user.setUsername(mobile);
@@ -40,9 +36,10 @@ public class UserController {
         user.setCredentialsNonExpired(true);
         user.setAccountNonLocked(true);
         try {
-            return userMapper.insert(user);
+            userMapper.insert(user);
+            return user;
         } catch (DuplicateKeyException e) {
-            return 0;
+            return null;
         }
     }
 

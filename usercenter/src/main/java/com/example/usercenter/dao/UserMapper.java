@@ -1,6 +1,6 @@
 package com.example.usercenter.dao;
 
-import com.example.usercenter.entity.User;
+import com.example.common.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
