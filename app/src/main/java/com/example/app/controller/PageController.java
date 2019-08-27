@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,9 @@ import static com.example.common.exception.SystemErrorType.PAGE_NOT_EXIST;
 @Slf4j
 public class PageController {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @ApiOperation(value = "获取页面配置数据", notes = "获取页面配置数据")
     @RequestMapping(method = RequestMethod.POST
             , value = "getPageInfo.json"
@@ -37,7 +41,7 @@ public class PageController {
             , produces = "application/json")
     public Result getPageInfo(@Valid @RequestBody CommonRequest<PageInfoReq> req) {
         PageInfoResp resp = new PageInfoResp();
-        ObjectMapper objectMapper = new ObjectMapper();
+
         String resPath = "static/" + req.getData().getPageName() + ".json";
         Resource pageData = new ClassPathResource(resPath);
         try {

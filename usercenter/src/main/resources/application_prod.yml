@@ -19,9 +19,9 @@ spring:
         signingKey: zhaodongDB888
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/user_center?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/user_center?useSSL=false
     username: ${MYSQL_ROOT_USERNAME:root}
-    password: ${MYSQL_ROOT_PASSWORD:mysql}
+    password: ${MYSQL_ROOT_PASSWORD:root123}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   redis:

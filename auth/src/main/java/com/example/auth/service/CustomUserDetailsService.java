@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserCenterProvider userCenterProvider;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
