@@ -15,6 +15,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String gesture;
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean credentialsNonExpired;

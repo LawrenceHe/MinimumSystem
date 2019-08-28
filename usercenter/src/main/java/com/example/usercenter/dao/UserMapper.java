@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
-    @Select("SELECT id,username,password,enabled," +
+    @Select("SELECT id,username,password,gesture,enabled," +
             "account_non_expired,credentials_non_expired,account_non_locked" +
             " FROM users WHERE id = #{id}")
     User getUserById(Long id);
 
-    @Select("SELECT id,username,password,enabled," +
+    @Select("SELECT id,username,password,gesture,enabled," +
             "account_non_expired,credentials_non_expired,account_non_locked" +
             " FROM users WHERE username = #{username}")
     @Results(value = {
@@ -26,5 +26,8 @@ public interface UserMapper {
     @Insert("insert into users(id,username,password,enabled,account_non_expired,credentials_non_expired,account_non_locked)" +
             " values(#{id}, #{username},#{password},#{enabled},#{accountNonExpired},#{credentialsNonExpired},#{accountNonLocked})")
     Integer insert(User user);
+
+    @Update("UPDATE users SET gesture = #{gesture} WHERE username=#{mobile} ")
+    void updateUserGesture(String mobile, String gesture);
 
 }

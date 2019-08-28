@@ -40,10 +40,4 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .allowedMethods("*");
 
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

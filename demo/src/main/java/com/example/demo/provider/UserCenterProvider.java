@@ -18,6 +18,9 @@ public interface UserCenterProvider {
     Set<Role> queryRolesByUserId(@RequestParam("id") Long userId);
 
     @PostMapping(value = "/user/insertUser.json")
-    User insertUser(@RequestParam("mobile") String mobile);
+    User insertUser(@RequestParam("mobile") String mobile, @RequestParam("password") String password);
+
+    @PostMapping(value = "/user/updateUserGesture.json")
+    void updateUserGesture(@RequestParam("mobile") String mobile, @RequestParam("gesture") String gesture);
 
 }

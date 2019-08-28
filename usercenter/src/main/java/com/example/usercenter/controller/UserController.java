@@ -26,11 +26,12 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST
             , value = "insertUser.json")
-    public User insertUser(@Valid @RequestParam String mobile) {
+    public User insertUser(@Valid @RequestParam String mobile
+            , @Valid @RequestParam String password) {
         User user = new User();
         user.setId(new SnowFlake(3, 3).nextId());
         user.setUsername(mobile);
-        user.setPassword("");
+        user.setPassword(password);
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
@@ -67,6 +68,12 @@ public class UserController {
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("admin", "lawrence", "core"));
         return roles;
+    }
+
+    @RequestMapping(method = RequestMethod.POST
+            , value = "updateUserGesture.json")
+    public void updateUserGesture(@Valid @RequestParam String mobile, @Valid @RequestParam String gesture) {
+        userMapper.updateUserGesture(mobile, gesture);
     }
 
 }

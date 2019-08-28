@@ -29,6 +29,8 @@ public enum SystemErrorType implements ErrorType {
 
     MESSAGE_TOKEN_ERROR("040004", "短信验证码不正确或者已经过期"),
 
+    GESTURE_ERROR("040005", "手势密码不正确"),
+
     PAGE_NOT_EXIST("050001", "页面不存在，pageName不正确"),
 
     SYSTEM_ERROR("-1", "系统异常");
