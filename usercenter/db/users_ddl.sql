@@ -14,5 +14,4 @@ CREATE TABLE users
   created_by              VARCHAR(100) NOT NULL DEFAULT 'system' COMMENT '创建人',
   updated_by              VARCHAR(100) NOT NULL DEFAULT 'system' COMMENT '更新人'
 ) COMMENT '用户表';
-CREATE UNIQUE INDEX ux_users_username
-  ON users (username);
+CREATE UNIQUE INDEX ux_users_username ON users (username);

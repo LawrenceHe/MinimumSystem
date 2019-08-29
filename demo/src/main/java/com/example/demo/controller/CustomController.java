@@ -12,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,14 +78,11 @@ public class CustomController {
         if (passwordEncoder.matches(loginInfo.getMessageToken(), verifyCode)) {
             // 验证码校验通过之后，若用户不存在，先插入用户数据
             if (user == null) {
-                // TODO: 这里是远程调用，根本不会抛异常的，所以这个try catch是无效代码！
-                try {
-                    user = userCenterProvider.insertUser(loginInfo.getMobile(), passwordEncoder.encode("no-fixed-password"));
-                } catch (DuplicateKeyException e) {
+                user = userCenterProvider.insertUser(loginInfo.getMobile(), passwordEncoder.encode("no-fixed-password"));
+                if (user == null) {
                     return Result.fail(SystemErrorType.SQL_DUPLICATE_KEY);
                 }
             }
-            // 生成Auth并返回数据
             return getLoginResponse(user, loginInfo.getMobile());
         } else {
             return Result.fail(SystemErrorType.MESSAGE_TOKEN_ERROR);
@@ -101,6 +97,10 @@ public class CustomController {
     public Result setGesture(@Valid @RequestBody CommonRequest<GestureLoginReq> req) {
         String mobile = req.getData().getMobile();
         String gesture = passwordEncoder.encode(req.getData().getGesture());
+        User user = userCenterProvider.getUserByUsername(req.getData().getMobile());
+        if (user == null) {
+            return Result.fail(SystemErrorType.USER_NOT_EXIST);
+        }
         userCenterProvider.updateUserGesture(mobile, gesture);
         return Result.success();
     }
@@ -118,13 +118,13 @@ public class CustomController {
             return Result.fail(SystemErrorType.USER_NOT_EXIST);
         }
         if (passwordEncoder.matches(loginInfo.getGesture(), user.getGesture())) {
-            // 生成Auth并返回数据
             return getLoginResponse(user, loginInfo.getMobile());
         } else {
             return Result.fail(SystemErrorType.GESTURE_ERROR);
         }
     }
 
+    // 生成Auth并返回数据
     private Result getLoginResponse(User user, String mobile) {
         OAuthToken auth = authProvider.getOAuthToken(mobile,
                 "no-fixed-password",
