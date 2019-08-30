@@ -5,6 +5,7 @@ CREATE TABLE users
   id                      BIGINT PRIMARY KEY COMMENT '用户id',
   username                VARCHAR(100) COMMENT '用户名（手机号）',
   password                VARCHAR(100) COMMENT '用户密码密文',
+  gesture                 VARCHAR(100) COMMENT '用户手势密码密文',
   enabled                 BOOLEAN DEFAULT TRUE COMMENT '是否有效用户',
   account_non_expired     BOOLEAN DEFAULT TRUE COMMENT '账号是否未过期',
   credentials_non_expired BOOLEAN DEFAULT TRUE COMMENT '密码是否未过期',
