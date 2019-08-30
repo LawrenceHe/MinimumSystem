@@ -41,6 +41,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
         <!-- swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>

@@ -1,5 +1,8 @@
 package com.example.app.controller;
 
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.listener.Listener;
+import com.alibaba.nacos.api.exception.NacosException;
 import com.example.app.entity.PageInfoReq;
 import com.example.app.entity.PageInfoResp;
 import com.example.app.exception.AppException;
@@ -20,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
 
 
 @RestController
@@ -30,6 +34,14 @@ import java.util.Scanner;
 @Api("/page")
 @Slf4j
 public class PageController {
+
+    // 缓存页面数据
+    private ConcurrentMap<String, String> pagesInformation = new ConcurrentHashMap<String, String>();
+
+    private final String DATA_ID = "page.app.demo.json";
+
+    @Autowired
+    private ConfigService configService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -44,9 +56,52 @@ public class PageController {
             , produces = "application/json")
     public Result getPageInfo(@Valid @RequestBody CommonRequest<PageInfoReq> req) {
         PageInfoResp resp = new PageInfoResp();
+        String pageName = req.getData().getPageName();
 
         try {
-            String pageContent = pageConfigProvider.getPageConfig("page.app.demo.json", req.getData().getPageName());
+            String pageContent = pagesInformation.getOrDefault(pageName, "");
+            // 若从缓存中取不到数据，则从配置系统中读取并监听修改
+            if (pageContent.isEmpty()) {
+                pageContent = configService.getConfig(DATA_ID, pageName, 2000);
+                if (pageContent == null) {
+                    return Result.fail(AppException.PAGE_NOT_CONFIG);
+                }
+                pagesInformation.put(pageName, pageContent);
+                configService.addListener(DATA_ID, pageName, new Listener() {
+                    @Override
+                    public Executor getExecutor() {
+                        return null;
+                    }
+
+                    @Override
+                    public void receiveConfigInfo(String configInfo) {
+                        pagesInformation.put(pageName, configInfo);
+                    }
+                });
+            }
+            JsonNode json = objectMapper.readTree(pageContent);
+            resp.setPageInfo(json);
+        } catch(NacosException e) {
+            return Result.fail(AppException.PAGE_NOT_CONFIG);
+        } catch(JsonParseException e) {
+            return Result.fail(AppException.PAGE_JSON_ERROR);
+        } catch (IOException | NullPointerException e) {
+            return Result.fail(AppException.PAGE_NOT_EXIST);
+        }
+
+        return Result.success(resp);
+    }
+
+    @ApiOperation(value = "获取页面配置数据", notes = "获取页面配置数据")
+    @RequestMapping(method = RequestMethod.POST
+            , value = "getPageInfoWithNoCache.json"
+            , consumes = "application/json"
+            , produces = "application/json")
+    public Result getPageInfoWithNoCache(@Valid @RequestBody CommonRequest<PageInfoReq> req) {
+        PageInfoResp resp = new PageInfoResp();
+
+        try {
+            String pageContent = pageConfigProvider.getPageConfig(DATA_ID, req.getData().getPageName());
             JsonNode json = objectMapper.readTree(pageContent);
             resp.setPageInfo(json);
         } catch(FeignException e) {
@@ -59,23 +114,4 @@ public class PageController {
 
         return Result.success(resp);
     }
-
-    private String jsonRead(File file){
-        Scanner scanner = null;
-        StringBuilder buffer = new StringBuilder();
-        try {
-            scanner = new Scanner(file, "utf-8");
-            while (scanner.hasNextLine()) {
-                buffer.append(scanner.nextLine());
-            }
-        } catch (Exception e) {
-
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-        return buffer.toString();
-    }
-
 }
