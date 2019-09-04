@@ -12,6 +12,6 @@ sleep 2
 for jarname in `ls target`
 do
 echo start $jarname 
-nohup java -jar $jarname -server -Xms512m -Xmx512m > ./run.log 2>&1 &
+nohup java -jar target/$jarname -server -Xms512m -Xmx512m > ./run.log 2>&1 &
 done
 
