@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -14,13 +13,15 @@ import java.util.Map;
 @Slf4j
 public class CommonRequestHeader {
 
-    @NotNull(message = "token不允许为null")
     @ApiModelProperty(value = "用户登录态")
     private String token;
 
     @NotBlank(message = "version不允许为空")
     @ApiModelProperty(value = "APP版本号")
     private String version;
+
+    @ApiModelProperty(value = "用户Id")
+    private String userId;
 
     @NotBlank(message = "平台Id不允许为空")
     @ApiModelProperty(value = "平台Id" +

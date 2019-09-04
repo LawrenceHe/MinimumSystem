@@ -13,3 +13,8 @@ eureka:
 spring:
   application:
     name: app-server
+  #jwt密码
+  security:
+    oauth2:
+      jwt:
+        signingKey: zhaodongDB888
