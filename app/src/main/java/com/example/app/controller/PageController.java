@@ -1,13 +1,11 @@
 package com.example.app.controller;
 
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.Listener;
-import com.alibaba.nacos.api.exception.NacosException;
 import com.example.app.entity.PageInfoReq;
 import com.example.app.entity.PageInfoResp;
 import com.example.app.exception.AppException;
 import com.example.app.provider.PageConfigProvider;
 import com.example.app.service.IAuthService;
+import com.example.app.util.NacosUtil;
 import com.example.common.entity.CommonRequest;
 import com.example.common.entity.CommonRequestHeader;
 import com.example.common.entity.Result;
@@ -21,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,31 +26,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executor;
 
 
 @RestController
 @RequestMapping("/page")
 @Api("/page")
 @Slf4j
-@RefreshScope
 public class PageController {
-
-    // 缓存页面数据
-    private ConcurrentMap<String, String> pagesInformation = new ConcurrentHashMap<String, String>();
-
-    private final String DATA_ID = "page.app.demo.json";
-    private final String DATA_ID_LOGIN = "page.login.app.demo.json";
 
     @Autowired
     private IAuthService authService;
-
-    @Autowired
-    private ConfigService configService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -61,9 +44,12 @@ public class PageController {
     @Autowired
     private PageConfigProvider pageConfigProvider;
 
+    @Autowired
+    private NacosUtil nacosUtil;
+
     @Data
     static class PagesWithLoginState {
-        public String[] pagesWithLoginState;
+        public List<String> pagesWithLoginState;
     }
 
     @ApiOperation(value = "获取页面配置数据", notes = "获取页面配置数据")
@@ -78,19 +64,19 @@ public class PageController {
 
         CommonRequestHeader header = req.getHeader();
         String authentication = header.getToken();
+        String dataId = "app.demo.page." + page + ".unlogin.json";
 
         // 判断登录状态
         if (authentication != null && !authentication.isEmpty()) {
             if (authService.validJwtAccessToken(authentication)) {
+                String content = nacosUtil.getConfig("app.demo.page.settings");
                 try {
-                    String content = configService.getConfig(DATA_ID_LOGIN, "DEFAULT_GROUP", 2000);
                     PagesWithLoginState pages = objectMapper.readValue(content, PagesWithLoginState.class);
-                    List<String> list = Arrays.asList(pages.getPagesWithLoginState());
-                    if (list.contains(page)) {
-                        page = page + "_login";
+                    if (pages.getPagesWithLoginState().contains(page)) {
+                        dataId = "app.demo.page." + page + ".login.json";
                     }
                 } catch (Exception e) {
-                    // TODO:
+                    log.error("Pages With Login State Config Error!");
                 }
             } else {
                 // Token不为空但校验不通过，可返回非法Token异常
@@ -99,31 +85,12 @@ public class PageController {
         }
 
         try {
-            final String pageName = page;
-            String pageContent = pagesInformation.getOrDefault(pageName, "");
-            // 若从缓存中取不到数据，则从配置系统中读取并监听修改
+            String pageContent = nacosUtil.getConfig(dataId);
             if (pageContent.isEmpty()) {
-                pageContent = configService.getConfig(DATA_ID, pageName, 2000);
-                if (pageContent == null) {
-                    return Result.fail(AppException.PAGE_NOT_CONFIG);
-                }
-                pagesInformation.put(pageName, pageContent);
-                configService.addListener(DATA_ID, pageName, new Listener() {
-                    @Override
-                    public Executor getExecutor() {
-                        return null;
-                    }
-
-                    @Override
-                    public void receiveConfigInfo(String configInfo) {
-                        pagesInformation.put(pageName, configInfo);
-                    }
-                });
+                return Result.fail(AppException.PAGE_NOT_CONFIG);
             }
             JsonNode json = objectMapper.readTree(pageContent);
             resp.setPageInfo(json);
-        } catch(NacosException e) {
-            return Result.fail(AppException.PAGE_NOT_CONFIG);
         } catch(JsonParseException e) {
             return Result.fail(AppException.PAGE_JSON_ERROR);
         } catch (IOException | NullPointerException e) {
@@ -140,9 +107,9 @@ public class PageController {
             , produces = "application/json")
     public Result getPageInfoWithNoCache(@Valid @RequestBody CommonRequest<PageInfoReq> req) {
         PageInfoResp resp = new PageInfoResp();
-
+        String dataId = "app.demo.page." + req.getData().getPageName() + ".unlogin.json";
         try {
-            String pageContent = pageConfigProvider.getPageConfig(DATA_ID, req.getData().getPageName());
+            String pageContent = pageConfigProvider.getPageConfig(dataId, req.getData().getPageName());
             JsonNode json = objectMapper.readTree(pageContent);
             resp.setPageInfo(json);
         } catch(FeignException e) {

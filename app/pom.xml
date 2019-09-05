@@ -47,15 +47,15 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- nacos -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
             <version>RELEASE</version>
         </dependency>
-
         <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-spring-context</artifactId>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-config-spring-boot-starter</artifactId>
             <version>RELEASE</version>
         </dependency>
 
