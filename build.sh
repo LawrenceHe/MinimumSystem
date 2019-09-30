@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo updating code...
 git pull
 
 mvn install -f common/pom.xml

@@ -1,9 +1,11 @@
 package com.example.app.controller;
 
+import com.example.app.context.AssetsContext;
 import com.example.app.entity.PageInfoReq;
 import com.example.app.entity.PageInfoResp;
 import com.example.app.exception.AppException;
 import com.example.app.provider.PageConfigProvider;
+import com.example.app.provider.UserAssetProvider;
 import com.example.app.service.IAuthService;
 import com.example.app.util.NacosUtil;
 import com.example.common.entity.CommonRequest;
@@ -19,10 +21,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.common.TemplateParserContext;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -45,12 +49,46 @@ public class PageController {
     private PageConfigProvider pageConfigProvider;
 
     @Autowired
+    private UserAssetProvider userAssetProvider;
+
+    @Autowired
     private NacosUtil nacosUtil;
 
     @Data
     static class PagesWithLoginState {
         public List<String> pagesWithLoginState;
     }
+
+//    @RequestMapping(method = RequestMethod.POST
+//            , value = "testExpressionLanguage.json"
+//            , consumes = "application/json"
+//            , produces = "application/json")
+//    public Result testExpressionLanguage(@RequestParam Long userId) {
+//        PageInfoResp resp = new PageInfoResp();
+//        String dataId = "app.test.demo.json";
+//
+//        try {
+//            String pageContent = nacosUtil.getConfig(dataId);
+//            EvaluationContext context = new StandardEvaluationContext();  // 表达式的上下文,
+//            AssetsContext c = new AssetsContext(userId, userAssetProvider);
+//            context.setVariable("asset", c);
+//
+//            ExpressionParser parser = new SpelExpressionParser();
+//            String s = parser.parseExpression(pageContent, new TemplateParserContext()).getValue(context, String.class);
+//
+//            if (pageContent.isEmpty()) {
+//                return Result.fail(AppException.PAGE_NOT_CONFIG);
+//            }
+//            JsonNode json = objectMapper.readTree(s);
+//            resp.setPageInfo(json);
+//        } catch(JsonParseException e) {
+//            return Result.fail(AppException.PAGE_JSON_ERROR);
+//        } catch (IOException | NullPointerException e) {
+//            return Result.fail(AppException.PAGE_NOT_EXIST);
+//        }
+//
+//        return Result.success(resp);
+//    }
 
     @ApiOperation(value = "获取页面配置数据", notes = "获取页面配置数据")
     @RequestMapping(method = RequestMethod.POST
@@ -84,13 +122,19 @@ public class PageController {
             }
         }
 
+        EvaluationContext evalContext = new StandardEvaluationContext();
+        AssetsContext assetsContext = new AssetsContext(Long.valueOf(req.getHeader().getUserId()), userAssetProvider);
+        evalContext.setVariable("asset", assetsContext);
+        ExpressionParser parser = new SpelExpressionParser();
+
         try {
             String pageContent = nacosUtil.getConfig(dataId);
             if (pageContent.isEmpty()) {
                 return Result.fail(AppException.PAGE_NOT_CONFIG);
             }
-            JsonNode json = objectMapper.readTree(pageContent);
-            resp.setPageInfo(json);
+            String formattedPageContent = parser.parseExpression(pageContent, new TemplateParserContext()).getValue(evalContext, String.class);
+            JsonNode jsonPageContent = objectMapper.readTree(formattedPageContent);
+            resp.setPageInfo(jsonPageContent);
         } catch(JsonParseException e) {
             return Result.fail(AppException.PAGE_JSON_ERROR);
         } catch (IOException | NullPointerException e) {

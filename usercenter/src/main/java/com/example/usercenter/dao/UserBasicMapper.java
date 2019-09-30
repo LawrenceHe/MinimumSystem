@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface UserMapper {
+public interface UserBasicMapper {
 
     @Select("SELECT id,username,password,gesture,enabled," +
             "account_non_expired,credentials_non_expired,account_non_locked" +

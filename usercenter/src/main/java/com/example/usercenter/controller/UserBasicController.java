@@ -1,6 +1,6 @@
 package com.example.usercenter.controller;
 
-import com.example.usercenter.dao.UserMapper;
+import com.example.usercenter.dao.UserBasicMapper;
 import com.example.common.entity.Role;
 import com.example.common.entity.User;
 import com.example.usercenter.util.SnowFlake;
@@ -19,10 +19,10 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 @Slf4j
-public class UserController {
+public class UserBasicController {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserBasicMapper userBasicMapper;
 
     @RequestMapping(method = RequestMethod.POST
             , value = "insertUser.json")
@@ -37,7 +37,7 @@ public class UserController {
         user.setCredentialsNonExpired(true);
         user.setAccountNonLocked(true);
         try {
-            userMapper.insert(user);
+            userBasicMapper.insert(user);
             return user;
         } catch (DuplicateKeyException e) {
             return null;
@@ -47,19 +47,19 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST
             , value = "getUserByMobile.json")
     public User getUserByMobile(@Valid @RequestParam String mobile) {
-        return userMapper.getByUsername(mobile);
+        return userBasicMapper.getByUsername(mobile);
     }
 
     @RequestMapping(method = RequestMethod.POST
             , value = "getUserById.json")
     public User getUserById(@Valid @RequestParam Long id) {
-        return userMapper.getUserById(id);
+        return userBasicMapper.getUserById(id);
     }
 
     @RequestMapping(method = RequestMethod.POST
             , value = "getUserByUsername.json")
     public User getUserByUsername(@Valid @RequestParam String username) {
-        return userMapper.getByUsername(username);
+        return userBasicMapper.getByUsername(username);
     }
 
     @RequestMapping(method = RequestMethod.POST
@@ -73,7 +73,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST
             , value = "updateUserGesture.json")
     public void updateUserGesture(@Valid @RequestParam String mobile, @Valid @RequestParam String gesture) {
-        userMapper.updateUserGesture(mobile, gesture);
+        userBasicMapper.updateUserGesture(mobile, gesture);
     }
 
 }
