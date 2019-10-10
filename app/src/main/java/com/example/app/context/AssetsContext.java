@@ -2,11 +2,13 @@ package com.example.app.context;
 
 import com.example.app.provider.UserAssetProvider;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 @Data
+@Slf4j
 public class AssetsContext {
 
     private UserAssetProvider provider;
@@ -23,15 +25,25 @@ public class AssetsContext {
     }
 
     public String getFortune() {
-        String fortuneString = provider.getFortuneById(id);
-        this.fortune = df.format(new BigDecimal(fortuneString));
+        try {
+            String fortuneString = provider.getFortuneById(id);
+            this.fortune = df.format(new BigDecimal(fortuneString));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            this.fortune = "0";
+        }
 
         return fortune;
     }
 
     public String getLoan() {
-        String loanString = provider.getFortuneById(id);
-        this.loan = df.format(new BigDecimal(loanString));
+        try {
+            String loanString = provider.getFortuneById(id);
+            this.loan = df.format(new BigDecimal(loanString));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            this.loan= "0";
+        }
 
         return loan;
     }

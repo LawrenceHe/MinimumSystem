@@ -123,7 +123,13 @@ public class PageController {
         }
 
         EvaluationContext evalContext = new StandardEvaluationContext();
-        AssetsContext assetsContext = new AssetsContext(Long.valueOf(req.getHeader().getUserId()), userAssetProvider);
+        Long uid = -1L;
+        try {
+            uid = Long.valueOf(req.getHeader().getUserId());
+        } catch (NumberFormatException e) {
+            log.error(e.getMessage());
+        }
+        AssetsContext assetsContext = new AssetsContext(uid, userAssetProvider);
         evalContext.setVariable("asset", assetsContext);
         ExpressionParser parser = new SpelExpressionParser();
 
