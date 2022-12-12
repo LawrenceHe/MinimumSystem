@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>appdemo</artifactId>
+    <artifactId>minisystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>appdemo</name>
+    <name>minisystem</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -22,7 +22,7 @@
     <modules>
         <module>common</module>
         <module>auth</module>
-        <module>demo</module>
+        <module>mine</module>
         <module>usercenter</module>
         <module>app</module>
         <module>discovery</module>
